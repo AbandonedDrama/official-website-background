@@ -14,11 +14,13 @@ const routes = [
     path: '/official_website', // 官网后台
     component: resolve => require(['../../component/official_website.vue'],
           resolve),
+    meta: { auth: false },
     children: [
       {
         path: '/addNews', // 添加新闻
         component: resolve => require(['../../component/addNews.vue'],
-          resolve)
+          resolve),
+        meta: { auth: false }
       },
       {
         path: '/newsList', // 新闻列表

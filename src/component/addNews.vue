@@ -14,10 +14,8 @@
             label-width="100px" 
             class="demo-ruleForm">
             <el-form-item label="分类选择" required>
-              <el-select v-model="newsSelect" placeholder="请选择">
-                <el-option label="公司新闻" value="1"></el-option>
-                <el-option label="行业新闻" value="2"></el-option>
-              </el-select>
+              <el-radio class="radio" v-model="newsSelect" label="1">公司新闻</el-radio>
+              <el-radio class="radio" v-model="newsSelect" label="2">行业新闻</el-radio>
             </el-form-item>
             <el-form-item label="新闻名称" prop="title">
               <el-input v-model="ruleForm.title"></el-input>
@@ -48,8 +46,7 @@
                 :on-success="handleAvatarSuccess"
                 :on-error="handleError"
                 :before-upload="beforeAvatarUpload"
-                name="image"
-                :data="{'session_id': session_id}">
+                name="image">
                 <img v-if="imgUrl" :src="imgUrl" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
@@ -71,14 +68,12 @@
 </template>
 
 <script>
-  import store from '../assets/store'
   import { addCompanyDynamic, addIndustryNews } from '../assets/axios/api.js'
   import * as SX from '../assets/public/sx_func.js'
   export default{
     name: 'addNews',
     data () {
       return {
-        session_id: store.state.user.userData.session_id,
         // 图片上传接口
         addCompanyDynamic,
         newsSelect: '1', // 上传分类选择
@@ -147,7 +142,6 @@
         Data.details = Data.newsDescription
         Data.image_url = this.imgUrl
         Data.add_time = SX.date(this.ruleForm.add_time)
-        Data.session_id = this.session_id
         this.$axios.post(this.selectNews(), Data)
         .then((msg) => {
           const data = msg.data

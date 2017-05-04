@@ -97,7 +97,7 @@
             }).then(() => {
               this.$message({
                 type: 'success',
-                message: '是的你最丑 Bay!'
+                message: '是的你最丑 Bye!'
               })
               setTimeout(() => {
                 this.$router.push('login')

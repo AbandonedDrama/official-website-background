@@ -93,13 +93,11 @@
 </template>
 
 <script>
-  import store from '../assets/store'
   import { getWebsiteJoinUsInfo, updateWebsiteJoinUsInfo, deleteWebsiteJoinUsById } from '../assets/axios/api.js'
   export default{
     name: 'newsList',
     data () {
       return {
-        session_id: store.state.user.userData.session_id,
         employList: [], // 招聘列表
         dialogUpdateWebsiteJoinUsInfo: false, // 修改招聘信息
         ruleForm: {
@@ -107,8 +105,7 @@
           department: '', // 招聘部门
           duty: '', // 岗位职责
           demand: '', // 任职要求
-          employ_count: 1,
-          session_id: store.state.user.userData.session_id
+          employ_count: 1
         },
         rules: {
           position: [
@@ -154,9 +151,7 @@
       },
       // 获取招聘
       getWebsiteJoinUsInfo () {
-        this.$axios.post(getWebsiteJoinUsInfo, {
-          session_id: this.session_id
-        })
+        this.$axios.post(getWebsiteJoinUsInfo)
         .then((msg) => {
           const data = msg.data
           switch (data.status) {
@@ -192,8 +187,7 @@
       getUpdateWebsiteJoinUsInfo (id) {
         this.$axios.get(updateWebsiteJoinUsInfo, {
           params: {
-            id,
-            session_id: this.session_id
+            id
           }
         })
         .then((msg) => {
@@ -229,7 +223,6 @@
         })
       },
       updateWebsiteJoinUsInfo () {
-        this.ruleForm.session_id = this.session_id
         this.$axios.post(updateWebsiteJoinUsInfo, this.ruleForm)
         .then((msg) => {
           const data = msg.data
@@ -267,8 +260,7 @@
           type: 'warning'
         }).then(() => {
           this.$axios.post(deleteWebsiteJoinUsById, {
-            id,
-            session_id: this.session_id
+            id
           })
           .then((msg) => {
             const data = msg.data

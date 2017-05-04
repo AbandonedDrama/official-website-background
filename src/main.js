@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
-import './assets/ElementUi'
-import './assets/public/sx_style.less'
 import router from './assets/router/router.js'
 import store from './assets/store/'
 import axios from './assets/axios/http.js'
 import Qs from 'qs'
+import './assets/ElementUi'
+import './assets/public/sx_style.less'
+import './assets/editor/editor.config.js'
 
 // 将axios挂载到prototype上，在组件中可以直接使用this.axios访问
 Vue.prototype.$axios = axios

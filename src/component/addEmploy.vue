@@ -40,7 +40,6 @@
 
 <script>
   import { addWebsiteJoinUs } from '../assets/axios/api.js'
-  import store from '../assets/store'
   export default{
     name: 'newsList',
     data () {
@@ -50,8 +49,7 @@
           department: '', // 招聘部门
           duty: '', // 岗位职责
           demand: '', // 任职要求
-          employ_count: 1,
-          session_id: store.state.user.userData.session_id
+          employ_count: 1
         },
         rules: {
           position: [

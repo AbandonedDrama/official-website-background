@@ -84,10 +84,8 @@
           label-width="100px" 
           class="demo-ruleForm">
           <el-form-item label="分类选择" required>
-            <el-select v-model="newsType" placeholder="请选择" disabled>
-              <el-option label="公司新闻" value="1"></el-option>
-              <el-option label="行业新闻" value="2"></el-option>
-            </el-select>
+            <el-radio class="radio" disabled v-model="newsType" label="1">公司新闻</el-radio>
+              <el-radio class="radio" disabled v-model="newsType" label="2">行业新闻</el-radio>
           </el-form-item>
           <el-form-item label="新闻名称" prop="title">
             <el-input v-model="ruleForm.title"></el-input>
@@ -106,14 +104,13 @@
               :on-success="handleAvatarSuccess"
               :on-error="handleError"
               :before-upload="beforeAvatarUpload"
-              :data="{'session_id': session_id}"
               name="image">
               <img v-if="imgUrl" :src="imgUrl" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
           <el-form-item label="新闻内容" required>
-            <div class="sx_basis_scroll sx_scroll_style" style="height: 350px;">
+            <div class="sx_basis_scroll sx_scroll_style">
               <vue-html5-editor :content="description" @change="updateData"></vue-html5-editor>
             </div>
           </el-form-item>
@@ -128,13 +125,11 @@
 </template>
 
 <script>
-  import store from '../assets/store'
   import { listCompanyDynamic, listIndustryNews, modifyCompanyDynamic, modifyIndustryNews, removeCompanyDynamic, removeIndustryNews } from '../assets/axios/api.js'
   export default{
     name: 'newsList',
     data () {
       return {
-        session_id: store.state.user.userData.session_id,
         newsList: [], // 新闻列表 后台获取
         // 当前页
         current_page: 1,
@@ -152,8 +147,7 @@
           keyword: '', // 关键字
           content: '', // 描述
           newsDescription: '', // 新闻内容
-          id: '',
-          session_id: store.state.user.userData.session_id
+          id: ''
         },
         rules: {
           title: [
@@ -203,8 +197,7 @@
       getNewsList (current_page) {
         const _this = this
         this.$axios.post(this.selectNews(), {
-          current_page: current_page,
-          session_id: this.session_id
+          current_page: current_page
         })
         .then((msg) => {
           const data = msg.data
@@ -268,8 +261,7 @@
       modificationNews (id) {
         this.dialog = true
         this.$axios.post(this.selectModifyNews(), {
-          id,
-          session_id: this.session_id
+          id
         })
         .then((msg) => {
           const data = msg.data
@@ -304,7 +296,6 @@
         const Data = JSON.parse(JSON.stringify(this.ruleForm))
         Data.details = Data.newsDescription
         Data.image_url = this.imgUrl
-        Data.session_id = this.session_id
         this.$axios.post(this.selectModifyNews(), Data)
         .then((msg) => {
           const data = msg.data
@@ -388,8 +379,7 @@
           type: 'warning'
         }).then(() => {
           this.$axios.post(this.selectDeleteNews(), {
-            id,
-            session_id: this.session_id
+            id
           })
           .then((msg) => {
             const data = msg.data
