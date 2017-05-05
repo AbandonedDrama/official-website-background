@@ -134,9 +134,9 @@
         // 当前页
         current_page: 1,
         // 总页数
-        total_pages: 5,
+        total_pages: 1,
         // 每页条数
-        page_size: 5,
+        page_size: 3,
         newsType: '1',
         // 修改数据模型
         dialog: false,

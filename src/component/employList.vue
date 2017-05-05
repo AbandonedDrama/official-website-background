@@ -72,20 +72,6 @@
                 <el-button @click="resetForm('ruleForm')">重置</el-button>
             </div>
           </el-dialog>
-          <!-- </br>
-          </br>
-          <el-row type="flex" justify="center">
-            <el-col :span="22">
-              <el-pagination
-                @current-change="handleCurrentChange"
-                :current-page="current_page"
-                :page-size="page_size"
-                layout="prev, pager, next, jumper"
-                :total="page_size*total_pages"
-                style="float: right;padding: 0;">
-              </el-pagination>
-            </el-col>
-          </el-row> -->
         </el-card>
       </el-col>
     </el-row>
