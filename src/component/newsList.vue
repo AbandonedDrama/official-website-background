@@ -45,13 +45,24 @@
             </el-table-column>
             <el-table-column
               label="操作"
-              width="180"
+              width="280"
               align="center">
               <template scope="scope">
                 <el-button 
                   type="success" 
                   size="small"
                   @click="modificationNews(scope.row.id)">编辑<i class="el-icon-edit el-icon--right"></i></el-button>
+                <template v-if="scope.row.choiceness >> 0 === 0">
+                  <el-button 
+                    type="info"
+                    size="small"
+                    @click="handleChoiceness(scope.row.id, newsType, 1)">精选<i class="el-icon-edit el-icon--right"></i></el-button>
+                </template>
+                <template v-else>
+                  <el-button 
+                    size="small"
+                    @click="handleChoiceness(scope.row.id, newsType, 0)">取消精选<i class="el-icon-edit el-icon--right"></i></el-button>
+                </template>
                 <el-button 
                   type="danger" 
                   size="small"
@@ -125,7 +136,7 @@
 </template>
 
 <script>
-  import { listCompanyDynamic, listIndustryNews, modifyCompanyDynamic, modifyIndustryNews, removeCompanyDynamic, removeIndustryNews } from '../assets/axios/api.js'
+  import { listCompanyDynamic, listIndustryNews, modifyCompanyDynamic, modifyIndustryNews, removeCompanyDynamic, removeIndustryNews, handleChoiceness } from '../assets/axios/api.js'
   export default{
     name: 'newsList',
     data () {
@@ -404,6 +415,113 @@
             message: '已取消删除'
           })
         })
+      },
+
+      handleChoiceness (id, type, choiceness) {
+        if (id && type) {
+          switch (choiceness >> 0) {
+            case 1:
+              this.$confirm('此操作将该新闻设为精选, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                this.$axios.post(handleChoiceness, {
+                  news_id: id,
+                  news_type: type >> 0,
+                  choiceness
+                })
+                .then((msg) => {
+                  const data = msg.data
+                  switch (data.flag >> 0) {
+                    case 1000:
+                      this.consoleSuccess(`新闻精选设置成功`)
+                      /* ===== 获取新闻列表 ===== */
+                      switch (this.newsType >> 0) {
+                        case 1:
+                          // this.getListCompanyDynamic()
+                          this.newsType = '1'
+                          this.getNewsList(this.current_page)
+                          break
+                        case 2:
+                          // this.getListIndustryNews()
+                          this.newsType = '2'
+                          this.getNewsList(this.current_page)
+                          break
+                        default:
+                          this.getNewsList(this.current_page)
+                          break
+                      }
+                      /* ======================== */
+                      break
+                    default:
+                      this.consoleWarning(data.return_code)
+                      break
+                  }
+                })
+                .catch(error => {
+                  this.consoleError(error)
+                })
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '已取消设置'
+                })
+              })
+              break
+            default:
+              this.$confirm('此操作将该取消新闻精选, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                this.$axios.post(handleChoiceness, {
+                  news_id: id,
+                  news_type: type >> 0,
+                  choiceness
+                })
+                .then((msg) => {
+                  const data = msg.data
+                  switch (data.flag >> 0) {
+                    case 1000:
+                      this.consoleSuccess(`取消新闻精选设置成功`)
+                      /* ===== 获取新闻列表 ===== */
+                      switch (this.newsType >> 0) {
+                        case 1:
+                          // this.getListCompanyDynamic()
+                          this.newsType = '1'
+                          this.getNewsList(this.current_page)
+                          break
+                        case 2:
+                          // this.getListIndustryNews()
+                          this.newsType = '2'
+                          this.getNewsList(this.current_page)
+                          break
+                        default:
+                          this.getNewsList(this.current_page)
+                          break
+                      }
+                      /* ======================== */
+                      break
+                    default:
+                      this.consoleWarning(data.return_code)
+                      break
+                  }
+                })
+                .catch(error => {
+                  this.consoleError(error)
+                })
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '已取消设置'
+                })
+              })
+              break
+          }
+        } else {
+          this.consoleWarning(`新闻ID或者Type为空!`)
+        }
       },
       consoleSuccess (success) {
         this.$notify({
