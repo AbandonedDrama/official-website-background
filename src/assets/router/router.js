@@ -14,13 +14,11 @@ const routes = [
     path: '/official_website', // 官网后台
     component: resolve => require(['../../component/official_website.vue'],
           resolve),
-    meta: { auth: false },
     children: [
       {
         path: '/addNews', // 添加新闻
         component: resolve => require(['../../component/addNews.vue'],
-          resolve),
-        meta: { auth: false }
+          resolve)
       },
       {
         path: '/newsList', // 新闻列表
@@ -35,6 +33,16 @@ const routes = [
       {
         path: '/employList', // 招聘列表
         component: resolve => require(['../../component/employList.vue'],
+          resolve)
+      },
+      {
+        path: '/addQrcode', // 添加App二维码
+        component: resolve => require(['../../component/addQrcode.vue'],
+          resolve)
+      },
+      {
+        path: '/qrcodeList', // App二维码列表
+        component: resolve => require(['../../component/qrcodeList.vue'],
           resolve)
       }
     ]

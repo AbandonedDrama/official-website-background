@@ -37,6 +37,12 @@
           <el-menu-item index="/employList">
             <i class="el-icon-menu"></i>招聘列表
           </el-menu-item>
+          <el-menu-item index="/addQrcode">
+            <i class="el-icon-menu"></i>添加App二维码
+          </el-menu-item>
+          <el-menu-item index="/qrcodeList">
+            <i class="el-icon-menu"></i>App二维码列表
+          </el-menu-item>
         </el-menu>
       </div>
       <div class="router_substratum">
