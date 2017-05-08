@@ -69,7 +69,7 @@
               break
             case 9001:
               /* 不做处理 */
-              this.$alert('暂无招聘信息', '友情提示', {
+              this.$alert('暂无App二维码', '友情提示', {
                 confirmButtonText: '确定'
               })
               break
