@@ -6,11 +6,11 @@
           <div slot="header" class="clearfix">
             <h2 style="float: left">添加招聘</h2>
           </div>
-          <el-form 
-            :model="ruleForm" 
-            :rules="rules" 
-            ref="ruleForm" 
-            label-width="100px" 
+          <el-form
+            :model="ruleForm"
+            :rules="rules"
+            ref="ruleForm"
+            label-width="100px"
             class="demo-ruleForm">
             <el-form-item label="招聘职位" prop="position">
               <el-input v-model="ruleForm.position"></el-input>
@@ -54,7 +54,7 @@
         rules: {
           position: [
             { required: true, message: '请输入招聘职位', trigger: 'blur' },
-            { min: 3, max: 10, message: '长度 3 到 10 个字符以内!', trigger: 'blur' }
+            { min: 3, max: 20, message: '长度 3 到 20 个字符以内!', trigger: 'blur' }
           ],
           department: [
             { required: true, message: '请输入招聘部门', trigger: 'blur' },
