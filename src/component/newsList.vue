@@ -122,7 +122,15 @@
           </el-form-item>
           <el-form-item label="新闻内容" required>
             <div class="sx_basis_scroll sx_scroll_style">
-              <vue-html5-editor :content="description" @change="updateData"></vue-html5-editor>
+              <!-- <vue-html5-editor :content="description" @change="updateData"></vue-html5-editor> -->
+              <quill-editor
+                ref="myTextEditor"
+                v-model="description"
+                :options="editorOption"
+                @change="updateData"
+                @showImageUI="imageHandler">
+              </quill-editor>
+              <input type="file" name="file" id="fileinput" @change="customimgupload($event)" style="display: none;">
             </div>
           </el-form-item>
           <el-form-item>
@@ -136,21 +144,19 @@
 </template>
 
 <script>
+  import * as API from '../assets/axios/api.js'
   import { listCompanyDynamic, listIndustryNews, modifyCompanyDynamic, modifyIndustryNews, removeCompanyDynamic, removeIndustryNews, handleChoiceness } from '../assets/axios/api.js'
   export default{
     name: 'newsList',
     data () {
       return {
+        editorOption: {}, // 富文本对象
         newsList: [], // 新闻列表 后台获取
-        // 当前页
-        current_page: 1,
-        // 总页数
-        total_pages: 1,
-        // 每页条数
-        page_size: 3,
+        current_page: 1, // 当前页
+        total_pages: 1, // 总页数
+        page_size: 3, // 每页条数
         newsType: '1',
-        // 修改数据模型
-        dialog: false,
+        dialog: false, // 修改数据模型
         description: '', // 新闻描述
         imgUrl: '', // 图片地址
         ruleForm: {
@@ -182,6 +188,30 @@
       /* -------------------------- */
     },
     methods: {
+      /* ------------------ 自定义富文本图片上传 ------------------- */
+      imageHandler () {
+        const fileinput = document.getElementById('fileinput')
+        fileinput.click()
+      },
+      customimgupload () {
+        var formData = new FormData()
+        formData.append('image', fileinput.files[0])
+        if (fileinput.files[0]) {
+          API.myAjax({
+            url: API.editorServer,
+            data: formData,
+            success: msg => {
+              var imageUrl = msg
+              var range = this.$refs.myTextEditor.quillEditor.getSelection()
+              var length = range.index
+              this.$refs.myTextEditor.quillEditor.insertEmbed(length, 'image', imageUrl)
+            },
+            fail: error => {
+              console.log(error)
+            }
+          })
+        }
+      },
       /* 获取公司新闻 */
       getListCompanyDynamic () {
         this.newsType = '1'

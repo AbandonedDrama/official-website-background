@@ -76,14 +76,14 @@
 </template>
 
 <script>
-  import { addCompanyDynamic, addIndustryNews } from '../assets/axios/api.js'
+  import * as API from '../assets/axios/api.js'
   import * as SX from '../assets/public/sx_func.js'
   export default{
     name: 'addNews',
     data () {
       return {
         editorOption: {}, // 富文本对象
-        addCompanyDynamic, // 图片上传接口
+        addCompanyDynamic: API.addCompanyDynamic, // 图片上传接口
         newsSelect: '1', // 上传分类选择
         description: '', // 新闻描述
         imgUrl: '', // 图片地址
@@ -166,7 +166,7 @@
       },
       /* 判断新闻上传链接 */
       selectNews () {
-        return this.newsSelect === '1' ? addCompanyDynamic : addIndustryNews
+        return this.newsSelect === '1' ? API.addCompanyDynamic : API.addIndustryNews
       },
       /* 提交数据 */
       addNews () {
@@ -284,6 +284,9 @@
     .addNews_body{
       box-sizing: border-box;
       padding: 50px 0;
+    }
+    .ql-container{
+     min-height: 220px!important;
     }
   }
 </style>
