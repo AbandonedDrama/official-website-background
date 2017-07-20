@@ -19,7 +19,6 @@
             </el-table-column>
             <el-table-column
               label="App二维码"
-              align="center"
               align="center">
               <template scope="scope">
                 <img :src="scope.row.url" v-if="scope.row.url" alt="App二维码">
@@ -31,9 +30,10 @@
               align="center">
               <template scope="scope">
                 <el-button 
-                  type="danger" 
+                  type="danger"
                   size="small"
-                  @click="removeNews(scope.row.id)">删除<i class="el-icon-delete2 el-icon--right"></i></el-button>
+                  @click="removeNews(scope.row.id)">删除<i class="el-icon-delete2 el-icon--right"></i>
+                </el-button>
               </template>
             </el-table-column>
           </el-table>
