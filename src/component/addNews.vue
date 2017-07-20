@@ -53,7 +53,15 @@
             </el-form-item>
             <el-form-item label="新闻内容" required>
               <div class="sx_basis_scroll sx_scroll_style" style="height: 350px;">
-                <vue-html5-editor :content="description" @change="updateData"></vue-html5-editor>
+                <quill-editor
+                  ref="myTextEditor"
+                  v-model="description"
+                  :options="editorOption"
+                  @change="updateData"
+                  @showImageUI="imageHandler">
+                </quill-editor>
+                <input type="file" name="file" id="fileinput" @change="customimgupload($event)" style="display: none;">
+                <!-- <vue-html5-editor :content="description" @change="updateData"></vue-html5-editor> -->
               </div>
             </el-form-item>
             <el-form-item>
@@ -74,8 +82,8 @@
     name: 'addNews',
     data () {
       return {
-        // 图片上传接口
-        addCompanyDynamic,
+        editorOption: {}, // 富文本对象
+        addCompanyDynamic, // 图片上传接口
         newsSelect: '1', // 上传分类选择
         description: '', // 新闻描述
         imgUrl: '', // 图片地址
@@ -106,6 +114,30 @@
       }
     },
     methods: {
+      /* ------------------ 自定义富文本图片上传 ------------------- */
+      imageHandler () {
+        const fileinput = document.getElementById('fileinput')
+        fileinput.click()
+      },
+      customimgupload () {
+        var formData = new FormData()
+        formData.append('image', fileinput.files[0])
+        if (fileinput.files[0]) {
+          API.myAjax({
+            url: API.editorServer,
+            data: formData,
+            success: msg => {
+              var imageUrl = msg
+              var range = this.$refs.myTextEditor.quillEditor.getSelection()
+              var length = range.index
+              this.$refs.myTextEditor.quillEditor.insertEmbed(length, 'image', imageUrl)
+            },
+            fail: error => {
+              console.log(error)
+            }
+          })
+        }
+      },
       submitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -174,7 +206,7 @@
       },
       /* ---- 富文本 ---- */
       updateData (data) {
-        this.ruleForm.newsDescription = data
+        this.ruleForm.newsDescription = data.html
       },
       /* --------------- */
 
