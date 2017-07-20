@@ -334,6 +334,7 @@
       },
       /* 修改信息提交 */
       addNews (id) {
+        console.log(this.ruleForm)
         const Data = JSON.parse(JSON.stringify(this.ruleForm))
         Data.details = Data.newsDescription
         Data.image_url = this.imgUrl
@@ -371,7 +372,7 @@
       },
       /* ---- 富文本 ---- */
       updateData (data) {
-        this.ruleForm.newsDescription = data
+        this.ruleForm.newsDescription = data.html
       },
       /* --------------- */
 
