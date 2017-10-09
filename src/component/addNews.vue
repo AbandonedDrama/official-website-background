@@ -199,7 +199,7 @@
         setTimeout(() => {
           this.$refs[formName].resetFields()
           // 清空富文本
-          this.description = null
+          this.description = ''
           // 清空封面图
           this.imgUrl = null
         }, time)

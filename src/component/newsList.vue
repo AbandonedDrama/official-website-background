@@ -363,11 +363,9 @@
         setTimeout(() => {
           this.$refs[formName].resetFields()
           // 清空富文本
-          this.description = null
+          this.description = ''
           // 清空封面图
           this.imgUrl = null
-          // 重新获取数据
-          this.getNewsList(this.current_page)
         }, time)
       },
       /* ---- 富文本 ---- */

@@ -79,7 +79,7 @@
 </template>
 
 <script>
-  import { getWebsiteJoinUsInfo, updateWebsiteJoinUsInfo, deleteWebsiteJoinUsById } from '../assets/axios/api.js'
+  import { getWebsiteJoinUsInfo, getWebsiteJoinUsInfoById, updateWebsiteJoinUsInfo, deleteWebsiteJoinUsById } from '../assets/axios/api.js'
   export default{
     name: 'newsList',
     data () {
@@ -171,10 +171,8 @@
       },
       // 获取修改信息详情
       getUpdateWebsiteJoinUsInfo (id) {
-        this.$axios.get(updateWebsiteJoinUsInfo, {
-          params: {
-            id
-          }
+        this.$axios.post(getWebsiteJoinUsInfoById, {
+          id: id
         })
         .then((msg) => {
           const data = msg.data
@@ -246,7 +244,7 @@
           type: 'warning'
         }).then(() => {
           this.$axios.post(deleteWebsiteJoinUsById, {
-            id
+            id: id
           })
           .then((msg) => {
             const data = msg.data
